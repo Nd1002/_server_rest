@@ -52,7 +52,7 @@ QString CONTROLLER :: getId()
 void CONTROLLER::append_jobj(QByteArray json){
     QJsonObject jContact = QJsonDocument::fromJson(json).object(),jobj;
     Contact iter;
-    id = jContact.value("id").toString(); //id для логирования сообщений, в будущем доработать
+    this->id = jContact.value("id").toString();
     iter.append(jContact);
     id_table.append(iter);
 
@@ -63,8 +63,8 @@ void CONTROLLER::update(QByteArray json){
     QString value;
     int iter = 0 ;
 
-    id = jContact.value("id").toString();
-    value = jContact.value("value").toString(); //данные для обновления id, доработать функционал
+    this->id = jContact.value("id").toString();
+    value = jContact.value("value").toString(); 
 
     for(iter = 0; iter < id_table.size();iter++){
         if(id_table[iter].getId() == id){
@@ -85,7 +85,7 @@ void CONTROLLER::delet(QByteArray json){
     int indx = 0;
 
 
-    id = jContact.value("id").toString();
+    this->id = jContact.value("id").toString();
         for( indx = 0;indx < id_table.size(); indx++){
                if(id_table[indx].getId() == id){
                    id_table.removeAt(indx);
