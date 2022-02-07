@@ -31,19 +31,20 @@ QJsonObject Contact:: toJsonObject_list(){
 
 
 
-void Contact::update(QString value){
-    qDebug()<<"\n------------ update Contact check------------- "<< value <<"\n";
+void Contact::update(QString value)
+{
    this->id.second = value;
-    qDebug()<<"\n------------ end of check ------------- "<<"\n";
 }
 
-QString Contact:: getId(){
+QString Contact:: getId()
+{
     return id.first;
 }
 
 // CLASS CONTROLLER
 
-QString CONTROLLER :: getId(){
+QString CONTROLLER :: getId()
+{
     return id;
 }
 
@@ -51,9 +52,6 @@ QString CONTROLLER :: getId(){
 void CONTROLLER::append_jobj(QByteArray json){
     QJsonObject jContact = QJsonDocument::fromJson(json).object(),jobj;
     Contact iter;
-    qDebug() << "append_jobj\n";
-    qDebug() << jContact.value("id").toString();
-    qDebug() << jContact.value("value").toString();
     id = jContact.value("id").toString(); //id для логирования сообщений, в будущем доработать
     iter.append(jContact);
     id_table.append(iter);
@@ -63,51 +61,42 @@ void CONTROLLER::append_jobj(QByteArray json){
 void CONTROLLER::update(QByteArray json){
     QJsonObject jContact = QJsonDocument::fromJson(json).object(),jobj;
     QString value;
-    int count = 0 ;
+    int iter = 0 ;
 
     id = jContact.value("id").toString();
     value = jContact.value("value").toString(); //данные для обновления id, доработать функционал
 
-    for(int iter = 0; iter < id_table.size();iter++){
+    for(iter = 0; iter < id_table.size();iter++){
         if(id_table[iter].getId() == id){
           id_table[iter].update(value);
           break;
         }
     }
 
-    if(!(count))
+    if(!(iter))
     {
         qDebug()<< "Указанного id не существует\n";
-    } else
-    {
-
     }
-
-
 }
+
 
 void CONTROLLER::delet(QByteArray json){
     QJsonObject jContact = QJsonDocument::fromJson(json).object(),jobj;
-    QString value;
-    Contact delet;
-    int count = 0, indx;
+    int indx = 0;
+
 
     id = jContact.value("id").toString();
-        for(int i = 0; i < id_table.size(); i++){
-               if(id_table[i].getId() == id){
-                   indx = i;
-                   count++;
+        for( indx = 0;indx < id_table.size(); indx++){
+               if(id_table[indx].getId() == id){
+                   id_table.removeAt(indx);
+                  break;
                }
         }
-    if(!count)
+
+    if(!indx)
     {
         qDebug()<< "Указанного id не существует\n";
     }
-    else
-    {
-        id_table.removeAt(indx);
-    }
-
 
 }
 
@@ -125,9 +114,5 @@ QByteArray CONTROLLER :: id_list(){
 
 
 
-
-void CONTROLLER::clear_list(){
-   id_table.clear();
-}
 
 //id_table, id

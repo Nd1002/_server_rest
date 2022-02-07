@@ -12,7 +12,6 @@ class Contact{
 public:
     void append(QJsonObject jObj);
     QJsonObject toJsonObject_list();
-
     void update(QString value);
     QString getId();
 private:
@@ -27,7 +26,6 @@ public:
     void append_jobj(QByteArray json);
     void update(QByteArray json);
     void delet(QByteArray json);
-    void clear_list();
     QString getId();
     QByteArray id_list();
 private:
